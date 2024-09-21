@@ -17,6 +17,11 @@ function App() {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
+  function logErrorToService(error, errorInfo) {
+    // Here you can send the error to an external logging service
+    console.error("Logging to error service: ", { error, errorInfo });
+  }
+
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
@@ -26,6 +31,7 @@ function App() {
       ) : (
         <ErrorBoundary
           FallbackComponent={ErrorFallback} 
+          onError={(error, errorInfo) => logErrorToService(error, errorInfo)}
           onReset={() => {
             setLoading(true);
             fetch("https://rickandmortyapi.com/api/character")
