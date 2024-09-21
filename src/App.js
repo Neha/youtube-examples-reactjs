@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import CardList from "./CardList";
+import ErrorFallback from "./ErrorFallback";
 
 function App() {
+  const [characters, setCharacters] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://rickandmortyapi.com/api/character")
+      .then((response) => response.json())
+      .then((data) => {
+        setCharacters(data.results);
+        setLoading(false);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="bg-gray-100 min-h-screen p-8">
+      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Rick and Morty Characters: Error Boundary Example</h1>
+      {loading ? (
+        <p className="text-center text-gray-500">Loading...</p>
+      ) : (
+        <ErrorBoundary
+          FallbackComponent={ErrorFallback} 
+          onReset={() => {
+            setLoading(true);
+            fetch("https://rickandmortyapi.com/api/character")
+              .then((response) => response.json())
+              .then((data) => {
+                setCharacters(data.results);
+                setLoading(false);
+              });
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <CardList characters={characters} />
+        </ErrorBoundary>
+      )}
     </div>
   );
 }
