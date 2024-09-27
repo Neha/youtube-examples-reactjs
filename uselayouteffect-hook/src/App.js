@@ -24,6 +24,7 @@ function ChatApp() {
 
   return (
     <div className="bg-red-100 p-4">
+     
       <div
         ref={chatBoxRef}
         className="bg-white border border-gray-300 h-64 overflow-y-auto p-4"

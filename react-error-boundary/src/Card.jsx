@@ -6,7 +6,7 @@ function Card({ character }) {
       <img className="w-full h-48 object-cover" src={character.image} alt={character.name} />
       <div className="p-4">
         <h2 className="text-xl font-bold text-gray-800">{character.name}</h2>
-        <p className="text-gray-600">Status: {character.status}</p>
+        <p className="text-gray-600">Status: {character}</p>
         <p className="text-gray-600">Species: {character.species}</p>
         <p className="text-gray-600">Gender: {character.gender}</p>
       </div>
